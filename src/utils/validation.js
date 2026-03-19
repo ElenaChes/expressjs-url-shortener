@@ -1,5 +1,5 @@
 //[Imports]
-const { reservedPaths } = require("../utils/constants");
+const { reservedPaths } = require("./constants");
 
 //[Check valid page]
 exports.validatePage = (page) => {

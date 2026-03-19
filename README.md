@@ -16,10 +16,11 @@ Automatically redirects to saved "long" URLs, counts clicks per URL and has an A
   <summary><h3>Content</h3></summary>
   
 - [Project Structure](#project-structure)
+- [Dependencies](#dependencies)
 - [Installation](#installation)
 - [API Endpoints](#api-endpoints)
-  - [Parameters:](#parameters)
-  - [Responses:](#responses)
+  - [Parameters](#parameters)
+  - [Responses](#responses)
   - [Registering New Short URL](#registering-new-short-url)
   - [Editing Existing URLs](#editing-existing-urls)
   - [Searching Existing Short URLs](#searching-existing-short-urls)
@@ -34,7 +35,7 @@ Automatically redirects to saved "long" URLs, counts clicks per URL and has an A
 
 # Project Structure
 
-A quick overview of the main folders in this repository:
+A quick overview of the `src` folders:
 
 - **controllers/** – Route handler logic for API and redirect endpoints.
 - **middleware/** – Express middleware for authentication, sanitization, and error handling.
@@ -46,13 +47,18 @@ A quick overview of the main folders in this repository:
 - **views/** – EJS templates for server-rendered pages.
 - **index.js** - Main file.
 
+# Dependencies
+
+1. Node.js 22.14.0
+2. npm 10.1.0
+
 # Installation
 
-1. Open a MongoDB project if you don't have one.
-2. Create a `.env` file and paste your MongoDB connection string inside. It should look like this:
+1. Open a MongoDB project if you don't already have one.
+2. Rename `.env.example` to `.env` in the root directory of the project and paste your MongoDB connection string inside. It should look like this:
 
-```
-DB=mongodb+srv://<USERNAME>:<PASSWORD>@<CLUSTER>.mongodb.net/?retryWrites=true&w=majority
+```bash
+DB=mongodb+srv://<USERNAME>:<PASSWORD>@<CLUSTER>.mongodb.net/<DATABASE>?retryWrites=true&w=majority
 ACCESS_KEY=<key for your API, will be used by external apps to access your API>,
 LOCAL=true
 WEBHOOK_URL=<optional - needed to send logs via webhooks>
@@ -76,20 +82,20 @@ APP_AVATAR=<optional, used in webhooks>
 }
 ```
 
-4. Replace `public/images/favicon.ico` with an icon of your choice.
-5. Update the landing page [`views/home.ejs`](views/home.ejs) and the stylesheet [`public/css/style.css`](public/css/style.css) to your liking.
+4. Replace `src/public/images/favicon.ico` with an icon of your choice.
+5. Update the landing page [`src/views/home.ejs`](src/views/home.ejs) and the stylesheet [`src/public/css/style.css`](src/public/css/style.css) to your liking.
 6. Run `npm i`.
-7. Start `index.js`.
+7. Start the app using `npm start` (or `npm run prod` for production).
 
 # API Endpoints
 
 All API endpoints require an `Authorization` header with your API key:
 
-```
+```bash
 Authorization: Bearer <key>
 ```
 
-## Parameters:
+## Parameters
 
 - **Url:** The URL you'd like to shorten.
 - **Page:** The URL extension your short URL will get.<br>
@@ -102,7 +108,7 @@ Authorization: Bearer <key>
 
 See each endpoint for required and optional parameters.
 
-## Responses:
+## Responses
 
 API responses are JSON objects containing a `status` field (`"success"` or `"error"`).
 

@@ -4,7 +4,6 @@ const chalk = require("chalk"); //colorful console.logs
 const express = require("express");
 const path = require("path");
 const cors = require("cors");
-require("dotenv").config(); //enables environment variables
 //Aif functions:
 const { setShutdownHandler } = require("./events/process"); //process events
 const webhookLog = require("./utils/webhooks"); //webhook logger
@@ -20,7 +19,7 @@ const dbLabel = require("./events/database"); //attach database events
 //[Initialize app]
 const app = express();
 app.set("view engine", "ejs"); //define engine
-app.set("views", "views"); //define views location
+app.set("views", path.join(__dirname, "views")); //define views location
 
 //[Define aid tools]
 app.use(cors());
@@ -35,7 +34,7 @@ app.use(sanitizeInput);
 //[Routes]
 const apiRouter = require("./routes/apiRoutes");
 app.use("/api", apiRouter);
-app.get("/favicon.ico", (req, res) => res.sendFile(__dirname + "/public/images/favicon.ico"));
+app.get("/favicon.ico", (req, res) => res.sendFile(path.join(__dirname, "public", "images", "favicon.ico")));
 const redirectRouter = require("./routes/redirectRoutes");
 app.use("/", redirectRouter);
 
