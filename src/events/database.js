@@ -1,5 +1,5 @@
 //[Imports]
-const chalk = require("chalk");
+const chalk = require("chalk").default;
 const { connection } = require("mongoose"); //database access
 const webhookLog = require("../utils/webhooks");
 //Info:
@@ -15,7 +15,7 @@ connection.on("connected", async () => {
 });
 
 connection.on("err", async (error) => {
-  console.error(error);
+  console.log(error);
   await webhookLog(dbLabel + " connection error.");
 });
 

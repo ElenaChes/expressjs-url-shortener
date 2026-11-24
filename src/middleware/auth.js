@@ -30,11 +30,11 @@ exports.checkOwner = (req, res, next, val) => {
     //[Pair exists]
     const pairs = state.getPairs();
     const pair = pairs.find((item) => item.page === val);
-    if (!pair) return respond.error(res, `Couldn't find page \`${appUrl}${val}\`.`);
+    if (!pair) return respond.error(res, `Couldn't find short url \`${appUrl}${val}\`.`);
 
     //[Pair owner or admin]
     if (registeredBy !== pair.registeredBy && !state.isAdmin(registeredBy))
-      return respond.error(res, `You lack permissions to edit page \`${appUrl}${val}\`.`, 403);
+      return respond.error(res, `You lack permissions to edit short url \`${appUrl}${val}\`.`, 403);
 
     //[Save for later]
     res.locals.pair = pair;

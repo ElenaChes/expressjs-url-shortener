@@ -96,7 +96,7 @@ exports.updateUrlPair = async (req, res) => {
   newPage = newPage || pair.page;
   newLabel = newLabel || pair.label;
 
-  //[Update]
+  //update
   await pair.updateOne({ url: newUrl, page: newPage, label: newLabel });
   await state.refreshPairs();
 

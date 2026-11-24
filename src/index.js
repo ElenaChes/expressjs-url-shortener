@@ -1,10 +1,10 @@
 //[Imports]
 console.time("Load time");
-const chalk = require("chalk"); //colorful console.logs
+const chalk = require("chalk").default; //colorful console.logs
 const express = require("express");
 const path = require("path");
 const cors = require("cors");
-//Aif functions:
+//Aid functions:
 const { setShutdownHandler } = require("./events/process"); //process events
 const webhookLog = require("./utils/webhooks"); //webhook logger
 //Database access:
@@ -34,11 +34,11 @@ app.use(sanitizeInput);
 //[Routes]
 const apiRouter = require("./routes/apiRoutes");
 app.use("/api", apiRouter);
-app.get("/favicon.ico", (req, res) => res.sendFile(path.join(__dirname, "public", "images", "favicon.ico")));
+app.get("/favicon.ico", (_, res) => res.sendFile(path.join(__dirname, "public/images/favicon.ico")));
 const redirectRouter = require("./routes/redirectRoutes");
 app.use("/", redirectRouter);
 
-app.all("*", (req, res) => res.sendStatus(404));
+app.all("/{*splat}", (_, res) => res.sendStatus(404));
 
 //[Error handling]
 const errorHandler = require("./middleware/errorHandler");
@@ -63,7 +63,13 @@ let server;
 
     //[Start server]
     const appUrl = getAppUrl();
-    server = app.listen(port, async () => {
+    server = app.listen(port, async (error) => {
+      if (error) {
+        await webhookLog(appLabel + chalk.red(" Couldn't start server."));
+        console.error(error);
+        console.timeEnd("Load time");
+        process.exit(1);
+      }
       await webhookLog(appLabel + " App is now online.");
       console.log("App launched at: " + chalk.yellow(appUrl));
       console.timeEnd("Load time");

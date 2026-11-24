@@ -1,11 +1,12 @@
+const silenceLocal = true; //skip webhook in local instance
+//[Imports]
+const chalk = require("chalk").default;
+if (chalk.level === 0) chalk.level = 1; //fix for fly/docker
 //[Variables]
 const { APP_NAME, APP_AVATAR, WEBHOOK_URL } = process.env;
 const contentFormatting = (log) => {
-  const clean = log.replace(/\x1B\[\d+m/g, ""); //remove chalk colors
-  //custom formatting (adjusted for discord code blocks)
-  if (clean.startsWith("[App]")) return `\`\`\`less\n${clean}\n\`\`\``;
-  if (clean.startsWith("[DB]")) return `\`\`\`css\n${clean}\n\`\`\``;
-  return `\`\`\`\n${clean}\n\`\`\``; //default - no color
+  const formattedMsg = log.replace(/\x1B\[(\d+)m/g, (_, code) => `\u001b[2;${code}m`).replaceAll("\u001b[2;92m", "\u001b[2;32m"); //Discord has "yellowish green" instead of "brightGreen"
+  return `\`\`\`ansi\n${formattedMsg}\n\`\`\``;
 };
 
 async function sendWebhook(body) {
@@ -20,6 +21,7 @@ async function sendWebhook(body) {
 //[Send webhook log]
 module.exports = async (message, appName, appAvatar, webhookMsg) => {
   console.log(message);
+  if (process.env.LOCAL && silenceLocal) return;
 
   if (!WEBHOOK_URL) return;
   const username = appName || APP_NAME || "Url Shortener";

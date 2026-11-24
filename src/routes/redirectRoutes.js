@@ -8,7 +8,7 @@ const router = express.Router();
 
 //[Routes]
 router.get("/", controllerHandler(controller.homePage)); //Landing page
-router.get("/*", controllerHandler(controller.redirectUrl)); //Redirect
+router.get("/*splat", controllerHandler(controller.redirectUrl)); //Redirect
 
 //[Export]
 module.exports = router;

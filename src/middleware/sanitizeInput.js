@@ -24,6 +24,6 @@ module.exports = (req, res, next) => {
   if (trimmedQuery?.error) return respond.error(res, invalidParamError(trimmedQuery.error));
 
   req.body = trimmedBody || {};
-  req.query = trimmedQuery || {};
+  Object.defineProperty(req, "query", { value: trimmedQuery || {}, writable: true, enumerable: true, configurable: true });
   next();
 };

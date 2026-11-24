@@ -1,6 +1,6 @@
 {
   "name": "url-shortener",
-  "version": "3.0",
+  "version": "3.1",
   "description": "",
   "main": "src/index.js",
   "engines": {
@@ -18,10 +18,10 @@
   "author": "Len",
   "license": "MIT",
   "dependencies": {
-    "chalk": "^4.1.2",
+    "chalk": "^6.0.1",
     "cors": "^2.8.6",
-    "ejs": "^3.1.10",
-    "express": "^4.22.1",
-    "mongoose": "^7.8.9"
+    "ejs": "^7.0.2",
+    "express": "^5.3.0",
+    "mongoose": "^9.13.0"
   }
 }
